@@ -152,6 +152,27 @@
             <div id="calculation-result" class="message"></div>
         </div>
 
+        <!-- Level 5: Decode the String -->
+        <div id="level5-screen" class="hidden">
+            <h2>Level 5: Decode the Encrypted String</h2>
+            <p>Decrypt the following code to proceed:</p>
+            <div class="fake-code">
+                GDSZ QFHE FUSI
+            </div>
+            <input type="text" id="decryption" placeholder="Enter decoded string" />
+            <button onclick="checkDecryption()">Submit Decryption</button>
+            <div id="decryption-result" class="message"></div>
+        </div>
+
+        <!-- Level 6: Find the Pattern -->
+        <div id="level6-screen" class="hidden">
+            <h2>Level 6: Identify the Pattern</h2>
+            <p>What's the next number in this pattern? 1, 3, 6, 10, 15, __</p>
+            <input type="text" id="pattern" placeholder="Enter next number" />
+            <button onclick="checkPattern()">Submit Answer</button>
+            <div id="pattern-result" class="message"></div>
+        </div>
+
         <!-- Vault Balance and Withdraw Section -->
         <div id="counter-screen" class="hidden">
             <h2>Vault Balance</h2>
@@ -175,6 +196,8 @@
     let vaultBalance = 1000000000000;
     let safeCode = "1234"; // Safe code for Level 3
     let correctAnswer = 579; // Answer to the math puzzle (Level 4)
+    let decryptedMessage = "BANKING SYSTEM"; // Decryption key for Level 5
+    let patternAnswer = 21; // Pattern answer for Level 6
 
     // Level 1: Check Access Code
     function checkAccessCode() {
@@ -215,10 +238,34 @@
         const userAnswer = parseInt(document.getElementById("calculation").value.trim());
         if (userAnswer === correctAnswer) {
             document.getElementById("level4-screen").classList.add("hidden");
-            document.getElementById("counter-screen").classList.remove("hidden");
+            document.getElementById("level5-screen").classList.remove("hidden");
             document.getElementById("calculation-result").innerHTML = "Correct! The vault is now unlocked.";
         } else {
             document.getElementById("calculation-result").innerHTML = "Incorrect answer! Try again.";
+        }
+    }
+
+    // Level 5: Decode the Encrypted String
+    function checkDecryption() {
+        const decryptedInput = document.getElementById("decryption").value.trim().toUpperCase();
+        if (decryptedInput === decryptedMessage) {
+            document.getElementById("level5-screen").classList.add("hidden");
+            document.getElementById("level6-screen").classList.remove("hidden");
+            document.getElementById("decryption-result").innerHTML = "Decryption successful! Proceeding to next level.";
+        } else {
+            document.getElementById("decryption-result").innerHTML = "Incorrect decryption! Try again.";
+        }
+    }
+
+    // Level 6: Identify the Pattern
+    function checkPattern() {
+        const patternInput = parseInt(document.getElementById("pattern").value.trim());
+        if (patternInput === patternAnswer) {
+            document.getElementById("level6-screen").classList.add("hidden");
+            document.getElementById("counter-screen").classList.remove("hidden");
+            document.getElementById("pattern-result").innerHTML = "Correct! You have unlocked the vault.";
+        } else {
+            document.getElementById("pattern-result").innerHTML = "Incorrect pattern! Try again.";
         }
     }
 
