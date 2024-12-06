@@ -1,1 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jasper County Bank</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
 
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .content {
+            background-color: white;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-box {
+            margin-top: 10px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 80%;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #27ae60;
+            color: white;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #2ecc71;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .counter {
+            font-size: 32px;
+            color: #27ae60;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .fake-code {
+            font-family: "Courier New", monospace;
+            font-size: 16px;
+            background-color: #ecf0f1;
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            text-align: left;
+        }
+
+        .withdraw {
+            margin-top: 20px;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .withdraw-result {
+            margin-top: 20px;
+            font-size: 24px;
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Welcome to Jasper County Bank</h1>
+        <p>Please enter the access code to join</p>
+    </div>
+
+    <div class="content">
+        <div id="join-screen">
+            <input type="text" id="accessCode" placeholder="Enter code" />
+            <button onclick="checkAccessCode()">Join</button>
+        </div>
+
+        <div id="bank-screen" class="hidden">
+            <h2>Welcome to the Bank</h2>
+            <p>Access Granted</p>
+            <div class="fake-code" id="fake-code">
+                // Initializing Banking System...
+                // Loading vault data...
+                // lock online vault;
+                // Encrypting data...
+                // Error: Vault access restricted...
+            </div>
+            <input type="text" id="unlockVault" placeholder="Delete 'lock online vault' and press Enter" />
+            <button onclick="unlockVault()">Unlock Vault</button>
+        </div>
+
+        <div id="counter-screen" class="hidden">
+            <h2>Vault Balance</h2>
+            <div class="counter" id="vault-counter">1,000,000,000,000</div>
+            <div class="withdraw">
+                <select id="withdraw-amount">
+                    <option value="10000000">10 million</option>
+                    <option value="50000000">50 million</option>
+                    <option value="100000000">100 million</option>
+                    <option value="500000000">500 million</option>
+                    <option value="1000000000">1 billion</option>
+                </select>
+                <button onclick="withdrawMoney()">Withdraw</button>
+            </div>
+            <div class="withdraw-result" id="withdraw-result"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let vaultBalance = 1000000000000;
+
+    // Check the initial access code
+    function checkAccessCode() {
+        const accessCode = document.getElementById("accessCode").value.trim();
+        if (accessCode === "ILOVEJAZZY") {
+            document.getElementById("join-screen").classList.add("hidden");
+            document.getElementById("bank-screen").classList.remove("hidden");
+        } else {
+            alert("Incorrect code! Access denied.");
+        }
+    }
+
+    // Unlock vault
+    function unlockVault() {
+        const unlockVaultCode = document.getElementById("unlockVault").value.trim();
+        if (unlockVaultCode === "lock online vault") {
+            // Show the vault balance
+            document.getElementById("bank-screen").classList.add("hidden");
+            document.getElementById("counter-screen").classList.remove("hidden");
+        } else {
+            alert("Incorrect code! You must delete 'lock online vault'.");
+        }
+    }
+
+    // Withdraw money from vault
+    function withdrawMoney() {
+        const withdrawAmount = parseInt(document.getElementById("withdraw-amount").value);
+        if (withdrawAmount > vaultBalance) {
+            document.getElementById("withdraw-result").innerHTML = "Insufficient funds!";
+        } else {
+            vaultBalance -= withdrawAmount;
+            document.getElementById("vault-counter").innerText = vaultBalance.toLocaleString();
+            document.getElementById("withdraw-result").innerHTML = `$${withdrawAmount.toLocaleString()} withdrawn successfully!`;
+        }
+    }
+</script>
+
+</body>
+</html>
