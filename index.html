@@ -96,6 +96,12 @@
             font-size: 24px;
             color: #e74c3c;
         }
+
+        .message {
+            font-size: 18px;
+            color: #2ecc71;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -103,18 +109,20 @@
 <div class="container">
     <div class="header">
         <h1>Welcome to Jasper County Bank</h1>
-        <p>Please enter the access code to join</p>
+        <p>Let's start your journey.</p>
     </div>
 
     <div class="content">
-        <div id="join-screen">
+        <!-- Level 1: Access Code -->
+        <div id="level1-screen">
+            <h2>Level 1: Enter the Access Code</h2>
             <input type="text" id="accessCode" placeholder="Enter code" />
             <button onclick="checkAccessCode()">Join</button>
         </div>
 
-        <div id="bank-screen" class="hidden">
-            <h2>Welcome to the Bank</h2>
-            <p>Access Granted</p>
+        <!-- Level 2: Unlock Vault -->
+        <div id="level2-screen" class="hidden">
+            <h2>Level 2: Unlock the Vault</h2>
             <div class="fake-code" id="fake-code">
                 // Initializing Banking System...
                 // Loading vault data...
@@ -122,10 +130,29 @@
                 // Encrypting data...
                 // Error: Vault access restricted...
             </div>
-            <input type="text" id="unlockVault" placeholder="Delete 'lock online vault' and press Enter" />
+            <input type="text" id="unlockVault" placeholder="Delete 'lock online vault' to unlock" />
             <button onclick="unlockVault()">Unlock Vault</button>
         </div>
 
+        <!-- Level 3: Guess the Safe Code -->
+        <div id="level3-screen" class="hidden">
+            <h2>Level 3: Guess the Safe Code</h2>
+            <p>Guess the 4-digit safe code to proceed.</p>
+            <input type="text" id="safeCode" placeholder="Enter 4-digit code" />
+            <button onclick="guessSafeCode()">Submit Guess</button>
+            <div id="safe-code-result" class="message"></div>
+        </div>
+
+        <!-- Level 4: Solve the Puzzle -->
+        <div id="level4-screen" class="hidden">
+            <h2>Level 4: Solve the Puzzle</h2>
+            <p>What is the result of 123 + 456?</p>
+            <input type="text" id="calculation" placeholder="Enter answer" />
+            <button onclick="checkCalculation()">Submit Answer</button>
+            <div id="calculation-result" class="message"></div>
+        </div>
+
+        <!-- Vault Balance and Withdraw Section -->
         <div id="counter-screen" class="hidden">
             <h2>Vault Balance</h2>
             <div class="counter" id="vault-counter">1,000,000,000,000</div>
@@ -146,27 +173,52 @@
 
 <script>
     let vaultBalance = 1000000000000;
+    let safeCode = "1234"; // Safe code for Level 3
+    let correctAnswer = 579; // Answer to the math puzzle (Level 4)
 
-    // Check the initial access code
+    // Level 1: Check Access Code
     function checkAccessCode() {
         const accessCode = document.getElementById("accessCode").value.trim();
         if (accessCode === "ILOVEJAZZY") {
-            document.getElementById("join-screen").classList.add("hidden");
-            document.getElementById("bank-screen").classList.remove("hidden");
+            document.getElementById("level1-screen").classList.add("hidden");
+            document.getElementById("level2-screen").classList.remove("hidden");
         } else {
             alert("Incorrect code! Access denied.");
         }
     }
 
-    // Unlock vault
+    // Level 2: Unlock Vault
     function unlockVault() {
         const unlockVaultCode = document.getElementById("unlockVault").value.trim();
         if (unlockVaultCode === "lock online vault") {
-            // Show the vault balance
-            document.getElementById("bank-screen").classList.add("hidden");
-            document.getElementById("counter-screen").classList.remove("hidden");
+            document.getElementById("level2-screen").classList.add("hidden");
+            document.getElementById("level3-screen").classList.remove("hidden");
         } else {
-            alert("Incorrect code! You must delete 'lock online vault'.");
+            alert("Incorrect action! Please delete 'lock online vault'.");
+        }
+    }
+
+    // Level 3: Guess the Safe Code
+    function guessSafeCode() {
+        const guessedCode = document.getElementById("safeCode").value.trim();
+        if (guessedCode === safeCode) {
+            document.getElementById("level3-screen").classList.add("hidden");
+            document.getElementById("level4-screen").classList.remove("hidden");
+            document.getElementById("safe-code-result").innerHTML = "Correct! You may proceed to the next level.";
+        } else {
+            document.getElementById("safe-code-result").innerHTML = "Incorrect code! Try again.";
+        }
+    }
+
+    // Level 4: Solve the Puzzle
+    function checkCalculation() {
+        const userAnswer = parseInt(document.getElementById("calculation").value.trim());
+        if (userAnswer === correctAnswer) {
+            document.getElementById("level4-screen").classList.add("hidden");
+            document.getElementById("counter-screen").classList.remove("hidden");
+            document.getElementById("calculation-result").innerHTML = "Correct! The vault is now unlocked.";
+        } else {
+            document.getElementById("calculation-result").innerHTML = "Incorrect answer! Try again.";
         }
     }
 
