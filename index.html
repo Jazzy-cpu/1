@@ -166,7 +166,7 @@
         <div id="level1-screen">
             <h2>Level 1: Enter the Access Code</h2>
             <input type="text" id="accessCode" placeholder="Enter code" />
-            <button onclick="checkAccessCode()">Join</button>
+            <button id="joinButton">Join</button>
         </div>
 
         <!-- Level 2: Unlock Vault -->
@@ -183,61 +183,7 @@
             <button onclick="unlockVault()">Unlock Vault</button>
         </div>
 
-        <!-- Level 3: Guess the Safe Code -->
-        <div id="level3-screen" class="hidden">
-            <h2>Level 3: Guess the Safe Code</h2>
-            <p>Guess the 4-digit safe code to proceed.</p>
-            <input type="text" id="safeCode" placeholder="Enter 4-digit code" />
-            <button onclick="guessSafeCode()">Submit Guess</button>
-            <div id="safe-code-result" class="message"></div>
-        </div>
-
-        <!-- Level 4: Solve the Puzzle -->
-        <div id="level4-screen" class="hidden">
-            <h2>Level 4: Solve the Puzzle</h2>
-            <p>What is the result of 123 + 456?</p>
-            <input type="text" id="calculation" placeholder="Enter answer" />
-            <button onclick="checkCalculation()">Submit Answer</button>
-            <div id="calculation-result" class="message"></div>
-        </div>
-
-        <!-- Level 5: Decode the String -->
-        <div id="level5-screen" class="hidden">
-            <h2>Level 5: Decode the Encrypted String</h2>
-            <p>Decrypt the following code to proceed:</p>
-            <div class="fake-code">
-                GDSZ QFHE FUSI
-            </div>
-            <input type="text" id="decryption" placeholder="Enter decoded string" />
-            <button onclick="checkDecryption()">Submit Decryption</button>
-            <div id="decryption-result" class="message"></div>
-        </div>
-
-        <!-- Level 6: Find the Pattern -->
-        <div id="level6-screen" class="hidden">
-            <h2>Level 6: Identify the Pattern</h2>
-            <p>What's the next number in this pattern? 1, 3, 6, 10, 15, __</p>
-            <input type="text" id="pattern" placeholder="Enter next number" />
-            <button onclick="checkPattern()">Submit Answer</button>
-            <div id="pattern-result" class="message"></div>
-        </div>
-
-        <!-- Vault Balance and Withdraw Section -->
-        <div id="counter-screen" class="hidden">
-            <h2>Vault Balance</h2>
-            <div class="vault-balance" id="vault-counter">1,000,000,000,000</div>
-            <div class="withdraw">
-                <select id="withdraw-amount">
-                    <option value="10000000">10 million</option>
-                    <option value="50000000">50 million</option>
-                    <option value="100000000">100 million</option>
-                    <option value="500000000">500 million</option>
-                    <option value="1000000000">1 billion</option>
-                </select>
-                <button onclick="withdrawMoney()">Withdraw</button>
-            </div>
-            <div class="withdraw-result" id="withdraw-result"></div>
-        </div>
+        <!-- Other levels would follow... -->
     </div>
 
     <div class="footer">
@@ -247,15 +193,12 @@
 
 <script>
     let vaultBalance = 1000000000000;
-    let safeCode = "1234"; 
-    let correctAnswer = 579; 
-    let decryptedMessage = "BANKING SYSTEM"; 
-    let patternAnswer = 21; 
 
     // Function to check the Access Code
     function checkAccessCode() {
         const accessCode = document.getElementById("accessCode").value.trim();
         if (accessCode === "bestbank") {
+            // Hide level 1 and show level 2
             document.getElementById("level1-screen").classList.add("hidden");
             document.getElementById("level2-screen").classList.remove("hidden");
         } else {
@@ -263,8 +206,18 @@
         }
     }
 
-    // Event listener to check Enter key for Level 1 (Access Code)
+    // Event listener for the Enter key on the access code input field
     document.getElementById("accessCode").addEventListener("keypress", function(event) {
         if (event.key === "Enter") {
             checkAccessCode();
         }
+    });
+
+    // Event listener for the "Join" button
+    document.getElementById("joinButton").addEventListener("click", function() {
+        checkAccessCode();
+    });
+</script>
+
+</body>
+</html>
