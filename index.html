@@ -252,6 +252,7 @@
     let decryptedMessage = "BANKING SYSTEM"; 
     let patternAnswer = 21; 
 
+    // Function to check the Access Code
     function checkAccessCode() {
         const accessCode = document.getElementById("accessCode").value.trim();
         if (accessCode === "ILOVEJAZZY") {
@@ -262,15 +263,4 @@
         }
     }
 
-    function unlockVault() {
-        const unlockVaultInput = document.getElementById("unlockVault").value.trim();
-        if (unlockVaultInput === "lock online vault") {
-            document.getElementById("level2-screen").classList.add("hidden");
-            document.getElementById("level3-screen").classList.remove("hidden");
-        } else {
-            alert("Incorrect command! Vault remains locked.");
-        }
-    }
-
-    function guessSafeCode() {
-        const user
+    // Function to unlock the
