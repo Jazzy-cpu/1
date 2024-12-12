@@ -255,7 +255,7 @@
     // Function to check the Access Code
     function checkAccessCode() {
         const accessCode = document.getElementById("accessCode").value.trim();
-        if (accessCode === "ILOVEJAZZY") {
+        if (accessCode === "bestbank") {
             document.getElementById("level1-screen").classList.add("hidden");
             document.getElementById("level2-screen").classList.remove("hidden");
         } else {
@@ -263,4 +263,8 @@
         }
     }
 
-    // Function to unlock the
+    // Event listener to check Enter key for Level 1 (Access Code)
+    document.getElementById("accessCode").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            checkAccessCode();
+        }
