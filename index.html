@@ -258,4 +258,82 @@
         if (accessCode === "bestbank") {
             document.getElementById("level1-screen").style.display = "none";
             document.getElementById("level2-screen").style.display = "block";
-        } else
+        } else {
+            alert("Incorrect code! Access denied.");
+        }
+    });
+
+    // Level 2: Unlock Vault
+    document.getElementById("unlockButton").addEventListener("click", function() {
+        const unlockCode = document.getElementById("unlockVault").value.trim();
+        if (unlockCode === "lock online vault") {
+            document.getElementById("level2-screen").style.display = "none";
+            document.getElementById("level3-screen").style.display = "block";
+        } else {
+            alert("Incorrect code to unlock the vault!");
+        }
+    });
+
+    // Level 3: Guess Safe Code
+    document.getElementById("guessButton").addEventListener("click", function() {
+        const safeCodeInput = document.getElementById("safeCode").value.trim();
+        if (safeCodeInput === safeCode) {
+            document.getElementById("level3-screen").style.display = "none";
+            document.getElementById("level4-screen").style.display = "block";
+        } else {
+            document.getElementById("safe-code-result").textContent = "Incorrect code! Try again.";
+            document.getElementById("safe-code-result").classList.add("message-error");
+        }
+    });
+
+    // Level 4: Solve Puzzle
+    document.getElementById("calcButton").addEventListener("click", function() {
+        const calculationInput = document.getElementById("calculation").value.trim();
+        if (parseInt(calculationInput) === correctAnswer) {
+            document.getElementById("level4-screen").style.display = "none";
+            document.getElementById("level5-screen").style.display = "block";
+        } else {
+            document.getElementById("calculation-result").textContent = "Incorrect answer!";
+            document.getElementById("calculation-result").classList.add("message-error");
+        }
+    });
+
+    // Level 5: Decode String
+    document.getElementById("decryptionButton").addEventListener("click", function() {
+        const decryptionInput = document.getElementById("decryption").value.trim();
+        if (decryptionInput === decryptedMessage) {
+            document.getElementById("level5-screen").style.display = "none";
+            document.getElementById("level6-screen").style.display = "block";
+        } else {
+            document.getElementById("decryption-result").textContent = "Incorrect decryption!";
+            document.getElementById("decryption-result").classList.add("message-error");
+        }
+    });
+
+    // Level 6: Identify Pattern
+    document.getElementById("patternButton").addEventListener("click", function() {
+        const patternInput = document.getElementById("pattern").value.trim();
+        if (parseInt(patternInput) === patternAnswer) {
+            document.getElementById("level6-screen").style.display = "none";
+            document.getElementById("counter-screen").style.display = "block";
+        } else {
+            document.getElementById("pattern-result").textContent = "Incorrect answer!";
+            document.getElementById("pattern-result").classList.add("message-error");
+        }
+    });
+
+    // Vault Balance Withdraw
+    function withdrawMoney() {
+        const amount = parseInt(document.getElementById("withdraw-amount").value);
+        if (vaultBalance >= amount) {
+            vaultBalance -= amount;
+            document.getElementById("vault-counter").textContent = vaultBalance.toLocaleString();
+            document.getElementById("withdraw-result").textContent = "Withdrawal successful!";
+        } else {
+            document.getElementById("withdraw-result").textContent = "Insufficient balance!";
+        }
+    }
+</script>
+
+</body>
+</html>
