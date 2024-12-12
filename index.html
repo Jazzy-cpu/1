@@ -192,15 +192,13 @@
 </div>
 
 <script>
-    let vaultBalance = 1000000000000;
-
     // Function to check the Access Code and move to the next level
     function checkAccessCode() {
         const accessCode = document.getElementById("accessCode").value.trim();
         if (accessCode === "bestbank") {
             // Hide level 1 and show level 2
-            document.getElementById("level1-screen").classList.add("hidden");
-            document.getElementById("level2-screen").classList.remove("hidden");
+            document.getElementById("level1-screen").style.display = "none";
+            document.getElementById("level2-screen").style.display = "block";
         } else {
             alert("Incorrect code! Access denied.");
         }
