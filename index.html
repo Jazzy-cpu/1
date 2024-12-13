@@ -269,15 +269,14 @@
     // Vault Balance Withdraw
     function withdrawMoney() {
         const amount = parseInt(document.getElementById("withdraw-amount").value);
-        let resultMessage = "";
+        const vaultBalance = 1000000000000;
         if (vaultBalance >= amount) {
             vaultBalance -= amount;
             document.getElementById("vault-counter").textContent = vaultBalance.toLocaleString();
-            resultMessage = `You have successfully withdrawn $${amount.toLocaleString()}.`;
+            document.getElementById("withdraw-result").textContent = "Withdrawal successful!";
         } else {
-            resultMessage = "Insufficient balance!";
+            document.getElementById("withdraw-result").textContent = "Insufficient balance!";
         }
-        document.getElementById("withdraw-result").textContent = resultMessage;
     }
 </script>
 
