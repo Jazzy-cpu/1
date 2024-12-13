@@ -33,29 +33,6 @@
             border-radius: 10px 10px 0 0;
         }
 
-        /* Navigation Bar */
-        nav ul {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            background-color: #003d5b;
-        }
-
-        nav ul li {
-            margin: 0 20px;
-        }
-
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        nav ul li a:hover {
-            text-decoration: underline;
-        }
-
         /* Buttons */
         button {
             background-color: #0071bc;
@@ -80,30 +57,9 @@
             100% { opacity: 1; }
         }
 
-        /* User Profile Section */
-        .user-profile {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .user-profile img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-        }
-
-        /* Account Overview Section */
-        .account-summary {
-            background-color: #e1e8f0;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-
-        .quick-actions button {
-            margin: 10px;
-            padding: 10px 15px;
-            background-color: #00aaff;
+        /* Level Screens */
+        .level-screen {
+            display: none;
         }
 
         /* Footer Section */
@@ -138,61 +94,26 @@
                 width: 100%;
             }
         }
-
-        .hidden {
-            display: none;
-        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- Header and Navigation -->
+    <!-- Header -->
     <div class="header">
         <h1>Jasper County Bank</h1>
         <p>Your Trusted Financial Partner</p>
     </div>
 
-    <nav>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Account</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
-    </nav>
-
-    <!-- User Profile Section -->
-    <div class="user-profile">
-        <img src="https://via.placeholder.com/80" alt="User Profile">
-        <p><strong>John Doe</strong></p>
-        <p>Account Type: Premium</p>
-        <button>Settings</button>
-    </div>
-
-    <!-- Account Overview Section -->
-    <div class="account-summary">
-        <h2>Account Overview</h2>
-        <p><strong>Account Balance:</strong> $1,000,000</p>
-        <p><strong>Available Balance:</strong> $800,000</p>
-    </div>
-
-    <!-- Quick Actions -->
-    <div class="quick-actions">
-        <button><i class="fas fa-credit-card"></i> Transfer Funds</button>
-        <button><i class="fas fa-list-alt"></i> View Transactions</button>
-        <button><i class="fas fa-money-check"></i> Deposit Funds</button>
-    </div>
-
     <!-- Level 1: Access Code -->
-    <div id="level1-screen">
+    <div id="level1-screen" class="level-screen">
         <h2>Level 1: Enter the Access Code</h2>
         <input type="text" id="accessCode" placeholder="Enter code" />
         <button id="joinButton">Join</button>
     </div>
 
     <!-- Level 2: Unlock Vault -->
-    <div id="level2-screen" class="hidden">
+    <div id="level2-screen" class="level-screen">
         <h2>Level 2: Unlock the Vault</h2>
         <div class="fake-code" id="fake-code">
             // Initializing Banking System...
@@ -206,7 +127,7 @@
     </div>
 
     <!-- Level 3: Guess the Safe Code -->
-    <div id="level3-screen" class="hidden">
+    <div id="level3-screen" class="level-screen">
         <h2>Level 3: Guess the Safe Code</h2>
         <p>Guess the 4-digit safe code to proceed.</p>
         <input type="text" id="safeCode" placeholder="Enter 4-digit code" />
@@ -215,7 +136,7 @@
     </div>
 
     <!-- Level 4: Solve the Puzzle -->
-    <div id="level4-screen" class="hidden">
+    <div id="level4-screen" class="level-screen">
         <h2>Level 4: Solve the Puzzle</h2>
         <p>What is the result of 123 + 456?</p>
         <input type="text" id="calculation" placeholder="Enter answer" />
@@ -224,7 +145,7 @@
     </div>
 
     <!-- Level 5: Decode the String -->
-    <div id="level5-screen" class="hidden">
+    <div id="level5-screen" class="level-screen">
         <h2>Level 5: Decode the Encrypted String</h2>
         <p>Decrypt the following code to proceed:</p>
         <div class="fake-code">
@@ -236,7 +157,7 @@
     </div>
 
     <!-- Level 6: Find the Pattern -->
-    <div id="level6-screen" class="hidden">
+    <div id="level6-screen" class="level-screen">
         <h2>Level 6: Identify the Pattern</h2>
         <p>What's the next number in this pattern? 1, 3, 6, 10, 15, __</p>
         <input type="text" id="pattern" placeholder="Enter next number" />
@@ -245,7 +166,7 @@
     </div>
 
     <!-- Vault Balance and Withdraw Section -->
-    <div id="counter-screen" class="hidden">
+    <div id="counter-screen" class="level-screen">
         <h2>Vault Balance</h2>
         <div class="vault-balance" id="vault-counter">1,000,000,000,000</div>
         <div class="withdraw">
@@ -268,79 +189,95 @@
 </div>
 
 <script>
-    // Show the next level based on user input
-    let currentLevel = 1;
+    // Initially hide all levels
+    const levels = document.querySelectorAll('.level-screen');
+    levels.forEach(level => level.style.display = 'none');
 
-    document.getElementById('joinButton').addEventListener('click', function() {
-        const accessCode = document.getElementById('accessCode').value;
-        if (accessCode === "secret") {
-            document.getElementById('level1-screen').classList.add('hidden');
-            document.getElementById('level2-screen').classList.remove('hidden');
-            currentLevel = 2;
+    // Show level 1 screen
+    document.getElementById('level1-screen').style.display = 'block';
+
+    // Level 1: Check Access Code
+    document.getElementById("joinButton").onclick = function() {
+        const accessCode = document.getElementById("accessCode").value.trim();
+        if (accessCode === "bestbank") {
+            document.getElementById("level1-screen").style.display = "none";
+            document.getElementById("level2-screen").style.display = "block";
         } else {
-            alert("Invalid code!");
+            alert("Incorrect code! Access denied.");
         }
-    });
+    };
 
-    document.getElementById('unlockButton').addEventListener('click', function() {
-        const unlockText = document.getElementById('unlockVault').value;
-        if (unlockText === "lock online vault") {
-            document.getElementById('level2-screen').classList.add('hidden');
-            document.getElementById('level3-screen').classList.remove('hidden');
-            currentLevel = 3;
+    // Level 2: Unlock Vault
+    document.getElementById("unlockButton").onclick = function() {
+        const unlockCode = document.getElementById("unlockVault").value.trim();
+        if (unlockCode === "lock online vault") {
+            document.getElementById("level2-screen").style.display = "none";
+            document.getElementById("level3-screen").style.display = "block";
         } else {
-            alert("Incorrect text!");
+            alert("Incorrect code to unlock the vault!");
         }
-    });
+    };
 
-    document.getElementById('guessButton').addEventListener('click', function() {
-        const safeCode = document.getElementById('safeCode').value;
-        if (safeCode === "1234") {
-            document.getElementById('level3-screen').classList.add('hidden');
-            document.getElementById('level4-screen').classList.remove('hidden');
-            currentLevel = 4;
+    // Level 3: Guess Safe Code
+    document.getElementById("guessButton").onclick = function() {
+        const safeCodeInput = document.getElementById("safeCode").value.trim();
+        if (safeCodeInput === "1234") {
+            document.getElementById("level3-screen").style.display = "none";
+            document.getElementById("level4-screen").style.display = "block";
         } else {
-            alert("Incorrect code!");
+            document.getElementById("safe-code-result").textContent = "Incorrect code! Try again.";
+            document.getElementById("safe-code-result").classList.add("message-error");
         }
-    });
+    };
 
-    document.getElementById('calcButton').addEventListener('click', function() {
-        const answer = document.getElementById('calculation').value;
-        if (answer === "579") {
-            document.getElementById('level4-screen').classList.add('hidden');
-            document.getElementById('level5-screen').classList.remove('hidden');
-            currentLevel = 5;
+    // Level 4: Solve Puzzle
+    document.getElementById("calcButton").onclick = function() {
+        const calculationInput = document.getElementById("calculation").value.trim();
+        if (parseInt(calculationInput) === 579) {
+            document.getElementById("level4-screen").style.display = "none";
+            document.getElementById("level5-screen").style.display = "block";
         } else {
-            alert("Incorrect answer!");
+            document.getElementById("calculation-result").textContent = "Incorrect answer!";
+            document.getElementById("calculation-result").classList.add("message-error");
         }
-    });
+    };
 
-    document.getElementById('decryptionButton').addEventListener('click', function() {
-        const decryption = document.getElementById('decryption').value;
-        if (decryption === "HELLO WORLD") {
-            document.getElementById('level5-screen').classList.add('hidden');
-            document.getElementById('level6-screen').classList.remove('hidden');
-            currentLevel = 6;
+    // Level 5: Decode String
+    document.getElementById("decryptionButton").onclick = function() {
+        const decryptionInput = document.getElementById("decryption").value.trim();
+        if (decryptionInput === "BANKING SYSTEM") {
+            document.getElementById("level5-screen").style.display = "none";
+            document.getElementById("level6-screen").style.display = "block";
         } else {
-            alert("Incorrect decryption!");
+            document.getElementById("decryption-result").textContent = "Incorrect decryption!";
+            document.getElementById("decryption-result").classList.add("message-error");
         }
-    });
+    };
 
-    document.getElementById('patternButton').addEventListener('click', function() {
-        const patternAnswer = document.getElementById('pattern').value;
-        if (patternAnswer === "21") {
-            document.getElementById('level6-screen').classList.add('hidden');
-            document.getElementById('counter-screen').classList.remove('hidden');
-            currentLevel = 7;
+    // Level 6: Identify Pattern
+    document.getElementById("patternButton").onclick = function() {
+        const patternInput = document.getElementById("pattern").value.trim();
+        if (parseInt(patternInput) === 21) {
+            document.getElementById("level6-screen").style.display = "none";
+            document.getElementById("counter-screen").style.display = "block";
         } else {
-            alert("Incorrect answer!");
+            document.getElementById("pattern-result").textContent = "Incorrect answer!";
+            document.getElementById("pattern-result").classList.add("message-error");
         }
-    });
+    };
 
+    // Vault Balance Withdraw
     function withdrawMoney() {
-        const withdrawAmount = document.getElementById('withdraw-amount').value;
-        const resultMessage = `You have successfully withdrawn $${Number(withdrawAmount).toLocaleString()}.`;
-        document.getElementById('withdraw-result').textContent = resultMessage;
+        const amount = parseInt(document.getElementById("withdraw-amount").value);
+        let resultMessage = "";
+        if (vaultBalance >= amount) {
+            vaultBalance -= amount;
+            document.getElementById("vault-counter").textContent = vaultBalance.toLocaleString();
+            resultMessage = `You have successfully withdrawn $${amount.toLocaleString()}.`;
+        } else {
+            resultMessage = "Insufficient balance!";
+        }
+        document.getElementById("withdraw-result").textContent = resultMessage;
     }
 </script>
 
