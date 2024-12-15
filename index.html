@@ -82,42 +82,6 @@
             color: #e74c3c;
         }
 
-        .fake-code {
-            font-family: "Courier New", monospace;
-            font-size: 14px;
-            background-color: #f5f5f5;
-            padding: 10px;
-            margin-top: 20px;
-            border-radius: 5px;
-            white-space: pre-wrap;
-            text-align: left;
-            border: 1px solid #ccc;
-        }
-
-        .vault-balance {
-            font-size: 32px;
-            color: #0073e6;
-            font-weight: bold;
-            margin-top: 20px;
-        }
-
-        .withdraw {
-            margin-top: 30px;
-        }
-
-        select {
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        .withdraw-result {
-            margin-top: 20px;
-            font-size: 24px;
-            color: #e74c3c;
-        }
-
         .footer {
             text-align: center;
             margin-top: 40px;
@@ -132,25 +96,6 @@
         .footer a:hover {
             text-decoration: underline;
         }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 10px;
-                width: 90%;
-            }
-
-            h1 {
-                font-size: 24px;
-            }
-
-            input[type="text"] {
-                width: 90%;
-            }
-
-            button {
-                width: 90%;
-            }
-        }
     </style>
 </head>
 <body>
@@ -162,65 +107,23 @@
     </div>
 
     <div class="content">
-        <!-- Level 1: Access Code -->
-        <div id="level1-screen">
+        <!-- Login Screen -->
+        <div id="login-screen">
+            <h2>Login</h2>
+            <input type="text" id="username" placeholder="Username" />
+            <input type="password" id="password" placeholder="Password" />
+            <button id="loginButton">Login</button>
+            <div id="login-error" class="message-error hidden">Incorrect username or password!</div>
+        </div>
+
+        <!-- Bank Levels -->
+        <div id="level1-screen" class="hidden">
             <h2>Level 1: Enter the Access Code</h2>
             <input type="text" id="accessCode" placeholder="Enter code" />
             <button id="joinButton">Join</button>
         </div>
 
-        <!-- Level 2: Unlock Vault -->
-        <div id="level2-screen" class="hidden">
-            <h2>Level 2: Unlock the Vault</h2>
-            <div class="fake-code" id="fake-code">
-                // Initializing Banking System...
-                // Loading vault data...
-                // lock online vault;
-                // Encrypting data...
-                // Error: Vault access restricted...
-            </div>
-            <input type="text" id="unlockVault" placeholder="Delete 'lock online vault' to unlock" />
-            <button id="unlockButton">Unlock Vault</button>
-        </div>
-
-        <!-- Level 3: Guess the Safe Code -->
-        <div id="level3-screen" class="hidden">
-            <h2>Level 3: Guess the Safe Code</h2>
-            <p>Guess the 4-digit safe code to proceed.</p>
-            <input type="text" id="safeCode" placeholder="Enter 4-digit code" />
-            <button id="guessButton">Submit Guess</button>
-            <div id="safe-code-result" class="message"></div>
-        </div>
-
-        <!-- Level 4: Solve the Puzzle -->
-        <div id="level4-screen" class="hidden">
-            <h2>Level 4: Solve the Puzzle</h2>
-            <p>What is the result of 123 + 456?</p>
-            <input type="text" id="calculation" placeholder="Enter answer" />
-            <button id="calcButton">Submit Answer</button>
-            <div id="calculation-result" class="message"></div>
-        </div>
-
-        <!-- Level 5: Decode the String -->
-        <div id="level5-screen" class="hidden">
-            <h2>Level 5: Decode the Encrypted String</h2>
-            <p>Decrypt the following code to proceed:</p>
-            <div class="fake-code">
-                GDSZ QFHE FUSI
-            </div>
-            <input type="text" id="decryption" placeholder="Enter decoded string" />
-            <button id="decryptionButton">Submit Decryption</button>
-            <div id="decryption-result" class="message"></div>
-        </div>
-
-        <!-- Level 6: Find the Pattern -->
-        <div id="level6-screen" class="hidden">
-            <h2>Level 6: Identify the Pattern</h2>
-            <p>What's the next number in this pattern? 1, 3, 6, 10, 15, __</p>
-            <input type="text" id="pattern" placeholder="Enter next number" />
-            <button id="patternButton">Submit Answer</button>
-            <div id="pattern-result" class="message"></div>
-        </div>
+        <!-- Other levels (Level 2 - 6) -->
 
         <!-- Vault Balance and Withdraw Section -->
         <div id="counter-screen" class="hidden">
@@ -246,93 +149,60 @@
 </div>
 
 <script>
-    let vaultBalance = 1000000000000;
-    let safeCode = "1234"; 
-    let correctAnswer = 579; 
-    let decryptedMessage = "BANKING SYSTEM"; 
-    let patternAnswer = 21;
+// Simulate a user database
+const users = {
+    "admin": "admin123",  // Username: admin, Password: admin123
+};
 
-    // Level 1: Check Access Code
-    document.getElementById("joinButton").onclick = function() {
-        const accessCode = document.getElementById("accessCode").value.trim();
-        if (accessCode === "bestbank") {
-            document.getElementById("level1-screen").style.display = "none";
-            document.getElementById("level2-screen").style.display = "block";
-        } else {
-            alert("Incorrect code! Access denied.");
-        }
-    };
+// Session management
+if (sessionStorage.getItem('loggedIn')) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('level1-screen').style.display = 'block';
+}
 
-    // Level 2: Unlock Vault Button
-    document.getElementById("unlockButton").onclick = function() {
-        const unlockCode = document.getElementById("unlockVault").value.trim();
-        if (unlockCode === "lock online vault") {
-            document.getElementById("level2-screen").style.display = "none";
-            document.getElementById("level3-screen").style.display = "block";
-        } else {
-            alert("Incorrect code to unlock the vault!");
-        }
-    };
+// Login functionality
+document.getElementById('loginButton').onclick = function() {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
 
-    // Level 3: Guess Safe Code
-    document.getElementById("guessButton").onclick = function() {
-        const safeCodeInput = document.getElementById("safeCode").value.trim();
-        if (safeCodeInput === safeCode) {
-            document.getElementById("level3-screen").style.display = "none";
-            document.getElementById("level4-screen").style.display = "block";
-        } else {
-            document.getElementById("safe-code-result").textContent = "Incorrect code! Try again.";
-            document.getElementById("safe-code-result").classList.add("message-error");
-        }
-    };
-
-    // Level 4: Solve Puzzle
-    document.getElementById("calcButton").onclick = function() {
-        const calculationInput = document.getElementById("calculation").value.trim();
-        if (parseInt(calculationInput) === correctAnswer) {
-            document.getElementById("level4-screen").style.display = "none";
-            document.getElementById("level5-screen").style.display = "block";
-        } else {
-            document.getElementById("calculation-result").textContent = "Incorrect answer!";
-            document.getElementById("calculation-result").classList.add("message-error");
-        }
-    };
-
-    // Level 5: Decode String
-    document.getElementById("decryptionButton").onclick = function() {
-        const decryptionInput = document.getElementById("decryption").value.trim();
-        if (decryptionInput === decryptedMessage) {
-            document.getElementById("level5-screen").style.display = "none";
-            document.getElementById("level6-screen").style.display = "block";
-        } else {
-            document.getElementById("decryption-result").textContent = "Incorrect decryption!";
-            document.getElementById("decryption-result").classList.add("message-error");
-        }
-    };
-
-    // Level 6: Identify Pattern
-    document.getElementById("patternButton").onclick = function() {
-        const patternInput = document.getElementById("pattern").value.trim();
-        if (parseInt(patternInput) === patternAnswer) {
-            document.getElementById("level6-screen").style.display = "none";
-            document.getElementById("counter-screen").style.display = "block";
-        } else {
-            document.getElementById("pattern-result").textContent = "Incorrect answer!";
-            document.getElementById("pattern-result").classList.add("message-error");
-        }
-    };
-
-    // Vault Balance Withdraw
-    function withdrawMoney() {
-        const amount = parseInt(document.getElementById("withdraw-amount").value);
-        if (vaultBalance >= amount) {
-            vaultBalance -= amount;
-            document.getElementById("vault-counter").textContent = vaultBalance.toLocaleString();
-            document.getElementById("withdraw-result").textContent = "Withdrawal successful!";
-        } else {
-            document.getElementById("withdraw-result").textContent = "Insufficient balance!";
-        }
+    if (users[username] && users[username] === password) {
+        sessionStorage.setItem('loggedIn', true);  // Set session
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('level1-screen').style.display = 'block';
+    } else {
+        document.getElementById('login-error').classList.remove('hidden');
     }
+};
+
+// Level 1: Access Code
+document.getElementById("joinButton").onclick = function() {
+    const accessCode = document.getElementById("accessCode").value.trim();
+    if (accessCode === "bestbank") {
+        document.getElementById("level1-screen").style.display = "none";
+        document.getElementById("level2-screen").style.display = "block";
+    } else {
+        alert("Incorrect code! Access denied.");
+    }
+};
+
+// Vault withdrawal (secure logic with session)
+function withdrawMoney() {
+    if (!sessionStorage.getItem('loggedIn')) {
+        alert("Please login first!");
+        return;
+    }
+
+    const amount = parseInt(document.getElementById("withdraw-amount").value);
+    let vaultBalance = 1000000000000; // Simulating vault balance here.
+
+    if (vaultBalance >= amount) {
+        vaultBalance -= amount;
+        document.getElementById("vault-counter").textContent = vaultBalance.toLocaleString();
+        document.getElementById("withdraw-result").textContent = "Withdrawal successful!";
+    } else {
+        document.getElementById("withdraw-result").textContent = "Insufficient balance!";
+    }
+}
 </script>
 
 </body>
